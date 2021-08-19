@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="07192730-87f0-46ae-9dbc-7a2b6bc992511" Bounds="-47.4483763885498,-122.983930157712,71.69,25.96" Label="SavingsID" />
+    <Node Id="07d1b4cc-d4f7-4e75-9d80-f67ea003a48e1" Bounds="-52.9483758290609,-67.0238301577125,89.0166666666667,25.96" Label="SavingsAmnt" UseManualLocation="True" />
+    <Node Id="CurrentAmnt" Bounds="-54.7583799997966,-11.0637301577124,88.6333333333333,25.96" Label="CurrentAmnt" UseManualLocation="True" />
+    <Node Id="d3b09761-7d18-4a9e-a25c-7181c675f631" Bounds="-74.7583799997965,-162.984029138184,130.826670837402,197.8804003479" Group="Expanded" Label="Savings" />
+  </Nodes>
+  <Links>
+    <Link Source="d3b09761-7d18-4a9e-a25c-7181c675f631" Target="07192730-87f0-46ae-9dbc-7a2b6bc992511" Category="Contains" />
+    <Link Source="d3b09761-7d18-4a9e-a25c-7181c675f631" Target="07d1b4cc-d4f7-4e75-9d80-f67ea003a48e1" Category="Contains" />
+    <Link Source="d3b09761-7d18-4a9e-a25c-7181c675f631" Target="CurrentAmnt" Category="Contains" />
+  </Links>
+  <Categories>
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+  </Properties>
+</DirectedGraph>

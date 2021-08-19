@@ -1,0 +1,199 @@
+﻿            <Page
+    x:Class="Bill_Tracker.Pages.Help"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bill_Tracker.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="LightGray">
+        <controls:BladeView Name="bv">
+            <controls:BladeItem IsOpen="True" TitleBarVisibility="Collapsed" Background="Gray">
+                <ListView SelectionChanged="ListView_SelectionChanged" Margin="0,5,0,0">
+                    <ListViewItem Name="Bills">
+                        <TextBlock Text="Bills" Style="{StaticResource billName}" FontSize="24"/>
+                    </ListViewItem>
+                    <ListViewItem Name="Ledger">
+                        <TextBlock Text="Ledger" Style="{StaticResource billName}" FontSize="24" />
+                    </ListViewItem>
+                    <ListViewItem Name="OTP">
+                        <TextBlock Text="One-Time Payment" Style="{StaticResource billName}" FontSize="24" />
+                    </ListViewItem>
+                    <ListViewItem Name="MGMT">
+                        <TextBlock Text="Bill Management" Style="{StaticResource billName}" FontSize="24" />
+                    </ListViewItem>
+                    <ListViewItem Name="Goal">
+                        <TextBlock Text="Goals" Style="{StaticResource billName}" FontSize="24" />
+                    </ListViewItem>
+                </ListView>
+            </controls:BladeItem>
+
+            <controls:BladeItem x:Name="BillsBlade" Header="Bills Page Help" Width="420" IsOpen="False">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Width="400">
+                        <TextBlock TextWrapping="WrapWholeWords">
+                            <Run>
+                                The bills page may be used to keep track of all of your bills at a glance.  It offers a combined view of
+                                all the bills that you keep track of and each bill is color coded to the type of bill that it is:                            
+                            </Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run Foreground="Blue">Blue: </Run>  Standard bill (monthly, bi-monthly, weekly)
+                               <LineBreak/>
+                            <Run Foreground="Orchid">Purple: </Run> One time bill
+                            <LineBreak/>
+                            <Run Foreground="Brown">Brown: </Run> Annual Bill
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>
+                                By clicking on a month displayed in the top section you can change the month that you are working in when paying bills.  
+                                You can work in the current month, previous month or the next month.                            
+                            </Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>                            
+                              To the left of the working month selection is a selector that will allow you to sort the main bill list by date or by category.                           
+                            </Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>
+                                To the right of the working month selection is the help button that brought you to this screen and the add button.  The 
+                                add button may be used to add new bills into the system.
+                            </Run> <LineBreak/> <LineBreak/>
+                            <Run>
+                                Below this top section, is thin dark gray bar with white text displaying at-a-glance metrics of your current bill
+                                financial situation. And below that is the actual bill list, hover your mouse over a bill to show a button on the far right that
+                                will allow you to perform actions on that bill.  If you are using a touch screen then swipe the entire bill left to see opttions.
+                            </Run>
+                        </TextBlock>
+
+
+                        <TextBlock Margin="0,15,0,0" FontWeight="Bold">
+                            Working Month Section
+                        </TextBlock>
+                        <Image Source="/Assets/Help/bills_Help1.png" Height="80" Margin="0,10,0,0"/>
+
+                        <TextBlock Margin="0,15,0,0" FontWeight="Bold">
+                            Bills section.
+                        </TextBlock>
+                        <Image Source="/Assets/Help/bills_help2.png" Height="170" Margin="0,10,0,0" />
+
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:BladeItem>
+
+            <controls:BladeItem Name="LedgerBlade" Header="Ledger Page Help" Width="420" IsOpen="False">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Width="400">
+                        <TextBlock TextWrapping="WrapWholeWords">
+                            <Run>
+                                The Ledger is used to manage payments for the month.  From the ledger you can see all of the payments you have made
+                                so far, you also have the option of deleting the payment or marking that payment posted.
+                            </Run>                            
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>
+                                Marking a bill posted means that the payment for that bill has been taken out of your account so you can keep
+                                track of which bills have processed and which still have yet to hit your account.
+                            </Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>                            
+                              
+                            </Run>
+                        </TextBlock>
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:BladeItem>
+
+            <controls:BladeItem Name="OTPBlade" Header="One-Time Page Help" Width="420" IsOpen="False">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Width="400">
+                        <TextBlock TextWrapping="WrapWholeWords">
+                            <Run>
+                                This page is used to keep track of items that only need to be paid once.  After an item is paid it is removed from the list,
+                                though it can be displayed again by enabling the "Show Paid" selector.  Additionaly, in the status bar area there is a button that
+                                will allow you to clear all paid items with a single click.
+                            </Run>                            
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>
+                                When hovering over the item with your mouse cursor several options will appear, you can pay the item, edit or delete the item from 
+                                the menu that pops up.
+                            </Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>                            
+                              
+                            </Run>
+                        </TextBlock>
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:BladeItem>
+
+            <controls:BladeItem Name="MGMTBlade" Header="Bill Management Page Help" Width="420" IsOpen="False">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Width="400">
+                        <TextBlock TextWrapping="WrapWholeWords">
+                            <Run>
+                                This page is used to manage your bills and other payments from one central location.  The layout of the page is designed to allow you
+                                to easily select and manage your items.  The left hand side shows all of the bills in the database, the </Run>
+                                <Run FontWeight="Bold">"Bill Type"</Run>
+                                and
+                                <Run FontWeight="Bold">"Category"</Run>
+                                selectors are used to filter that list so you can easily find the bill you are looking for.  On the far right hand side is the
+                                <Run FontWeight="Bold">"Add" </Run>
+                                <Run> button which can be used to add a new bill.
+                            </Run>                            
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>
+                                When a bill is selected, the main page will populate with data displaying the item name, monthly payment ammound, the category and type
+                                of item.  On the right are the options to edit, delete and archive the item.  (When a bill is archived it is removed from showing up
+                                in the main bill list as a bill that is due, however the data and previous payments are kept for archival purposes).
+                            </Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>                            
+                                The main area displays every payment made to that bill in the database, these payments can be removed by hovering over the line you
+                                want to remove and clicking the delete button to the far right of the item.  Finally, on the bottom of the page is a selector to
+                                allow you to choose how many previous payments should be shown in the list.
+                            </Run>
+                        </TextBlock>
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:BladeItem>
+
+            <controls:BladeItem Name="GoalBlade" Header="Goal Page Help" Width="420" IsOpen="False">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Width="400">
+                        <TextBlock TextWrapping="WrapWholeWords">
+                            <Run>
+                                This page is used to manage and track your savings goals and how far along you are in them. The status bar shows how  many
+                                goals you have, the total value of those goals and how much of them you have saved for. On the far right hand side is the </Run>
+                                <Run FontWeight="Bold">"Add" </Run>
+                                <Run> button which can be used to add a new goal.
+                            </Run>                            
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>
+                                Each goal is displayed with the due date, amount paid to date and the total amount of the goal.  It also calculates what your monthly
+                                contribution should be in order to meet the goal.  As you progress through the goal it will fill up to give you a general indication
+                                of how far along you are.  
+                            </Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Run>                            
+                                If you hover the mouse over a goal several options will appear over the due date.  Here you can edit the goal, delete it and add or
+                                remove money from the goal.
+                            </Run>
+                        </TextBlock>
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:BladeItem>
+        </controls:BladeView>
+    </Grid>
+</Page>

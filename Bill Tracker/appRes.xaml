@@ -1,0 +1,443 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bill_Tracker">
+
+
+<!--#region Brushes-->
+    <SolidColorBrush x:Key="MainBackgrnd" Color="#FFAEAEB2" />
+    <SolidColorBrush x:Key="MenBackgrnd" Color="LightSteelBlue" />
+    <SolidColorBrush x:Key="spltPnlBack" Color="#FF2B2B2B" />
+    <SolidColorBrush x:Name="gridButtonBg" Color="LightBlue" Opacity=".5"/>
+    <SolidColorBrush x:Name="monthButtonBorder" Color="#af4242" />
+    <SolidColorBrush x:Name="iconBarBrush" Color="#FF3E3E3E" />
+
+    <!--#endregion-->
+    
+    <!--#region Main Page-->
+    <Style TargetType="Button" x:Key="topNavBttn">
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Background" Value="{StaticResource MenBackgrnd}" />
+    </Style>
+    <Style TargetType="Button" x:Key="topBttn">
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Background" Value="#FFF0F0F0" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="splitMenitmIcn">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="splitMenitmTxt">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="20,0,0,5" />
+
+    </Style>
+    <!--#endregion-->
+   
+    <!--#region Bill Page-->
+    <Style TargetType="Grid" x:Key="billStack" >
+        <Setter Property="Margin" Value="5"  />
+        <Setter Property="Width" Value="220" />
+        <Setter Property="Height" Value="105" />
+        <Setter Property="Background" Value="White"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="billName" >
+        <Setter Property="Margin" Value="5,0,5,0" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="Bold" />     
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="billRem" >
+        <Setter Property="RelativePanel.AlignRightWithPanel" Value="True" />
+        <Setter Property="RelativePanel.AlignVerticalCenterWithPanel" Value="True" />
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style TargetType="Line" x:Key="billLine">
+        <Setter Property="Stroke" Value="Black" />
+        <Setter Property="StrokeThickness" Value="3" />
+        <Setter Property="X1" Value="0" />
+        <Setter Property="X2" Value="220" />
+        <Setter Property="Y1" Value="0" />
+        <Setter Property="Y2" Value="0" />
+        <Setter Property="Grid.Row" Value="1" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="billCost" >
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="Red" />
+        <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="billCat" >
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Margin" Value="10,0,0,1" />
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="StackPanel" x:Key="billCostStack" >
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="Margin" Value="5,0,5,0" />
+    </Style>
+    <Style TargetType="StackPanel" x:Key="paidStack">
+        <Setter Property="Grid.Row" Value="2" />
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="Grid.RowSpan" Value="2" />
+        <Setter Property="Margin" Value="5,0,5,0" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="paidCheck">
+        <Setter Property="Margin" Value="10,0,0,0"  />
+        <Setter Property="FontFamily" Value="Wingdings" />
+        <Setter Property="FontSize" Value="66" />
+        <Setter Property="Foreground" Value="Green" />
+        <Setter Property="Margin" Value="5,0,5,0" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="paidText">
+        <Setter Property="Margin" Value="5,0,0,0" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="Foreground" Value="Green" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5,0,5,0" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="totalLabel" BasedOn="{StaticResource  ResourceKey=billCost}" >
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="15,10,15,5" />
+        <Setter Property="Canvas.ZIndex" Value="1" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Margin" Value="5,0,5,0" />
+    </Style>
+    <Style TargetType="Button" x:Key="gridButton">
+        <Setter Property="Width" Value="35"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Background" Value="{StaticResource ResourceKey=gridButtonBg}" />
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="0" />            
+    </Style>
+    
+
+    <!--#endregion-->
+
+<!--#region Bill Details-->
+    <Style TargetType="TextBlock" x:Key="itemHeading">
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="Margin" Value="15,10,0,15" />
+    </Style>
+    <Style TargetType="TextBox" x:Key="billItemEntry">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Margin" Value="15,5,0,5" />
+        <Setter Property="Width" Value="310" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        
+    </Style> 
+    <Style TargetType="Button" x:Key="billBttn">
+        <Setter Property="Margin" Value="5,0,0,0" />
+        <Setter Property="Width" Value="75"/>
+    </Style>
+    <Style TargetType="DatePicker" x:Key="billDatePk" >
+        <Setter Property="Margin" Value="20,10,0,10" />
+        <Setter Property="MonthFormat" Value="{}{month.integer}" />
+        <Setter Property="MonthVisible" Value="False" />
+        <Setter Property="YearFormat" Value="{}{year.full}" />
+        <Setter Property="YearVisible" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderThickness" Value="0,0,0,2" />
+        <Setter Property="Width" Value="310" />
+    </Style>
+    <Style TargetType="ComboBox" x:Key="billCbx" >
+        <Setter Property="Width" Value="310" />
+        <Setter Property="BorderThickness" Value="0,0,0,2" />
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Margin" Value="20,10,0,10" />
+    </Style>
+    <Style TargetType="StackPanel" x:Key="billPanel">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Grid.Column" Value="1" />            
+    </Style>
+    
+<!--#endregion-->
+
+<!--#region Account Ledger-->
+    <Style TargetType="TextBlock" x:Key="ledgerTitle" >
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="ledgerInput" >
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="ledgerPaid" BasedOn="{StaticResource billCost}">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+    
+<!--#endregion-->
+    
+    <!--#region Debt tracker Page-->
+    <Style TargetType="Grid" x:Key="acctStack" >
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Width" Value="350" />
+        <Setter Property="Height" Value="200" />
+        <Setter Property="Margin" Value="0,0,5,0" />        
+    </Style>
+    <Style TargetType="TextBlock" x:Key="acctName" BasedOn="{StaticResource billName}" >
+        <Setter Property="FontSize" Value="24" />        
+        <Setter Property="Width" Value="330" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Margin" Value="0,5,0,0" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="acctBal" BasedOn="{StaticResource billCost}" >
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="TextAlignment" Value="Left" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="acctData" BasedOn="{StaticResource acctBal}" >        
+        <Setter Property="TextAlignment" Value="Left" />
+    </Style>
+
+    <!--#endregion-->
+    
+    <!--#region Home Page-->
+    <Style TargetType="GridViewItem" x:Key="gridItem">
+        <Setter Property="Background" Value="SlateGray" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Height" Value="120" />
+        <Setter Property="Width" Value="120" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="HmlateBillNumber">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="HmBoxText">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+    <Style TargetType="StackPanel" x:Key="HmSectnListStck">
+        <Setter Property="Width" Value="190"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Orientation" Value="Horizontal"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="hmSectnListTxt">
+        <Setter Property="Margin" Value="5,3,0,0"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="HmSectnListIcn" BasedOn="{StaticResource hmSectnListTxt}">
+        <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="hmIcnTxt" BasedOn="{StaticResource HmSectnListIcn}">
+        <Setter Property="Margin" Value="0,5,0,0" />
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <!--#endregion-->
+
+    <!--#region dialog entry -->
+    <Style TargetType="ComboBox" x:Key="comboBoxEntry">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="LightGray" />
+        <Setter Property="Margin" Value="20,5,0,5" />
+        <Setter Property="Width" Value="265" />
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="dialogTextEntry" BasedOn="{StaticResource billItemEntry}">
+        <Setter Property="Margin" Value="20,5,0,5" />
+        <Setter Property="Height" Value="35" />
+        <Setter Property="Width" Value="265" />
+    </Style>
+ 
+    <Style TargetType="TextBlock" x:Key="dialogLabel" BasedOn="{StaticResource itemHeading}">
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0,5,0,7" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+
+    <Style TargetType="DatePicker" x:Key="dateEntryBox">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="LightGray" />
+        <Setter Property="Margin" Value="20,5,0,5" />
+        <Setter Property="Width" Value="265" />
+    </Style>
+    
+    <!--#endregion-->
+    
+    <!--#region Account Details Page -->
+    <Style TargetType="TextBlock" x:Key="accItemText">
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="Margin" Value="0,4,15,13"/>
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Height" Value="25" />
+    </Style>
+    <Style TargetType="TextBox" x:Key="accItemData">
+        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="accItemDatTbx" >
+        <Setter Property="Margin" Value="15,4,15,13"/>
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Padding" Value="0,5,0,0" />
+    </Style>
+
+    <!--#endregion-->
+
+    <!--#region savings goals-->
+    <Style TargetType="Grid" x:Key="goalGrid" >
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Width" Value="400" />
+        <Setter Property="Height" Value="120" />
+        <Setter Property="Margin" Value="0,0,5,0" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="goalName" BasedOn="{StaticResource billName}" >
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Width" Value="330" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Margin" Value="10,5,0,0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="goalData" BasedOn="{StaticResource acctBal}" >
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+
+    <Style TargetType="ProgressBar" x:Key="goalProgBar">
+        <Setter Property="Width" Value="170"/>
+        <Setter Property="Height" Value="15" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="0,7,0,0" />
+    </Style>
+    <!--#endregion-->
+
+
+    <Style TargetType="TextBlock" x:Key="InfoPanelItem">
+        <Setter Property="Margin" Value="10,0,10,0" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style TargetType="Line" x:Key="InfoPanelLine">        
+        <Setter Property="X1" Value="0" />
+        <Setter Property="X2" Value="0" />
+        <Setter Property="Y1" Value="10" />
+        <Setter Property="Y2" Value="40" />
+        <Setter Property="Stroke" Value="White" />
+        <Setter Property="StrokeThickness" Value="3" />
+        <Setter Property="StrokeStartLineCap" Value="Round"/>
+        <Setter Property="StrokeEndLineCap" Value="Round"/>
+        <Setter Property="Margin" Value="0,0,0,8" />
+    </Style>
+
+
+    <Style TargetType="Button" x:Key="flyoutButton">
+        <Setter Property="Width" Value="110"/>
+        <Setter Property="Background" Value="#FF91B8EC"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+    </Style>
+    <Style TargetType="FontIcon" x:Key="flyoutIcon">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="0,0,10,0"/>
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="flyoutText">
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+    <Style TargetType="FlyoutPresenter" x:Key="flyoutMen">
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+
+
+
+    <FontIconSource x:Key="EditIcon" Glyph="&#xE104;" />
+    <FontIconSource x:Key="PayIcon" Glyph="&#xE8EC;" />
+    <FontIconSource x:Key="ShareIcon" Glyph="&#xE72D;" />
+    <FontIconSource x:Key="ArchiveIcon" Glyph="&#xE8A6;" />
+    <FontIconSource x:Key="DeleteIcon" Glyph="&#xE107;" />
+    <FontIconSource x:Key="PostIcon" Glyph="&#xE0E7;" />
+    <FontIconSource x:Key="PlusIcon" Glyph="&#xE109;" />
+    <FontIconSource x:Key="MinusIcon" Glyph="&#xE108;"/>
+    <FontIconSource x:Key="ExpandIcon" Glyph="&#xE8CB;" />
+    <FontIconSource x:Key="ManagePayIcon" Glyph="&#xE90F;" />
+    
+
+    <!--#region History Page-->
+    <Style TargetType="StackPanel" x:Key="Hist_TimeSpanStack">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Background" Value="#777676" />
+        <Setter Property="Padding" Value="0,0,0,0" />        
+    </Style>
+
+    <Style TargetType="TextBlock" x:Name="Hist_DetailsTextMain">
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="10,10,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Name="Hist_DetailsText" BasedOn="{StaticResource Hist_DetailsTextMain}">
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <!--#endregion-->
+    
+    <!-- #region tools, pay calc -->
+    <Style TargetType="TextBlock" x:Name="PayPlan_Name" BasedOn="{StaticResource billName}">        
+    </Style>
+
+    <Style TargetType="TextBlock" x:Name="PayPlan_Remain" BasedOn="{StaticResource billCost}">
+        
+    </Style>
+
+
+    <Style TargetType="TextBox" x:Name="PayoffCalc_EntryName">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="3"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Name="PayoffCalc_EntryText">
+        <Setter Property="Margin" Value="5,5,5,0" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <Style TargetType="TextBox" x:Name="PayoffCalc_EntryBoxes">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Width" Value="120" />
+        <Setter Property="TextAlignment" Value="Right" />
+    </Style>
+    <!--#endregion-->
+
+</ResourceDictionary>

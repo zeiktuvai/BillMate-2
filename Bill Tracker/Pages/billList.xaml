@@ -1,0 +1,268 @@
+﻿<Page
+    x:Class="Bill_Tracker.billList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bill_Tracker"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    mc:Ignorable="d">
+
+
+    <Page.Resources>
+        <local:visibilityBoolConv x:Key="boolConverter" />
+        <local:StringFormatConverter x:Key="StringFormat" />
+        <!--Use a collection view source for content that presents a list of items that can be grouped or sorted.-->
+        <CollectionViewSource x:Key="cvsBills" x:Name="cvsBills" IsSourceGrouped="True" />
+
+        <SwipeItems x:Key="BillRight" Mode="Reveal">
+            <SwipeItem Text="Pay" IconSource="{StaticResource PayIcon}" Background="#FF91B8EC" Foreground="White" Invoked="SwipePay_Invoked" />
+            <SwipeItem Text="Manage" IconSource="{StaticResource ManagePayIcon}" Background="#FF91B8EC" Foreground="White" Invoked="SwipeManage_Invoked" />
+            <SwipeItem Text="Share" IconSource="{StaticResource ShareIcon}" Background="#FF91B8EC" Foreground="White" Invoked="SwipeShare_Invoked"/>
+        </SwipeItems>
+
+        <!-- FIGURE OUT DISABLE SWIPE FOR ONE TIME-->
+        <DataTemplate x:Key="ListViewLarge">
+            <SwipeControl RightItems="{StaticResource BillRight}"  >
+            <Grid MinWidth="750" Height="43" Background="{Binding Path=_pastDueColor}" Padding="0,0,0,0" Margin="0,0,15,0" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" Tapped="Grid_Tapped" CornerRadius="7" BorderThickness="0,1,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="AUTO" />
+                    <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="AUTO" MinWidth="100" />
+                    <ColumnDefinition Width="71"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Width="5" HorizontalAlignment="Left"  Fill="{Binding Path=_RectColor}" Visibility="{Binding Path=_RectVisi}" Canvas.ZIndex="3"/>
+                <Grid Visibility="{Binding Path=_PastDVisi}">
+                    <Rectangle Width="40" HorizontalAlignment="Left"  Fill="DarkRed" Canvas.ZIndex="0"/>
+                    <TextBlock Text="Past&#x0a;Due" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
+                </Grid>
+                <TextBlock Name="lblBillNm" Grid.Column="1" Text="{Binding Path=Name}" Style="{StaticResource billName}"/>
+                    <SymbolIcon Symbol="Accept" Grid.Column="2" Foreground="DarkGreen" Visibility="{Binding Path=_isPosted}">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Denotes if bill has posted to your account." />
+                        </ToolTipService.ToolTip>
+                    </SymbolIcon>
+                    <controls:RadialProgressBar Grid.Column="3" Height="35" Width="35" Value="{Binding Path=_pOfBudget}" Minimum="0" Maximum="100" Thickness="5" Outline="Gray" Foreground="Blue" Opacity="75">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Percentage of budget used by bill"/>
+                        </ToolTipService.ToolTip>
+                    </controls:RadialProgressBar>
+                    <StackPanel Style="{StaticResource billCostStack}" Grid.Column="4">
+                    <TextBlock Text="{Binding Path=Amount, Converter={StaticResource ResourceKey=StringFormat}}" Style="{StaticResource billCost}" />
+                </StackPanel>
+                <TextBlock Text="{Binding Path=catDue}" Style="{StaticResource billCat}" Grid.Column="5"/>
+                <RelativePanel Name="bttnPanel" Grid.Column="6" Visibility="Collapsed" VerticalAlignment="Center">
+                        <Button Style="{StaticResource gridButton}" x:Name="bttnQPay" Content="&#xEC61;" FontFamily="Segoe MDL2 Assets" ToolTipService.ToolTip="Quick Pay" RelativePanel.AlignLeftWithPanel="True" Click="bttnQPay_Click"/>
+                        <Button  Style="{StaticResource gridButton}" RelativePanel.AlignRightWithPanel="True" >
+                        <FontIcon Glyph="&#xE712;" FontSize="14"/>
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterStyle="{StaticResource flyoutMen}">
+                                <StackPanel>
+                                    <Button Click="PayBill_Click" Style="{StaticResource flyoutButton}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <FontIcon Glyph="&#xE8EC;" Style="{StaticResource flyoutIcon}"/>
+                                                <TextBlock Text="Pay" Style="{StaticResource flyoutText}"/>
+                                        </StackPanel>
+                                    </Button>
+                                        <Button Click="ManageBillPay_Click" Style="{StaticResource flyoutButton}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <FontIcon Glyph="&#xE90F;" Style="{StaticResource flyoutIcon}"/>
+                                                <TextBlock Text="Manage" Style="{StaticResource flyoutText}"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Style="{StaticResource flyoutButton}" Click="shrBillBttn_Click" >
+                                        <StackPanel Orientation="Horizontal">
+                                            <FontIcon Glyph="&#xE72D;" Style="{StaticResource flyoutIcon}" FontSize="18" Margin="2,0,10,0"/>
+                                                <TextBlock Text="Share" Style="{StaticResource flyoutText}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </RelativePanel>
+            </Grid>
+            </SwipeControl>
+        </DataTemplate>
+                
+        <DataTemplate x:Key="ListViewSmall">
+            <SwipeControl RightItems="{StaticResource BillRight}" >
+                <Grid Width="450" Height="43" Background="{Binding Path=_pastDueColor}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" Tapped="Grid_Tapped" CornerRadius="7" BorderThickness="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="AUTO" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Width="5" HorizontalAlignment="Left"  Fill="{Binding Path=_RectColor}" Visibility="{Binding Path=_RectVisi}" Canvas.ZIndex="1"/>
+                    <Grid Visibility="{Binding Path=_PastDVisi}">
+                        <Rectangle Width="40" HorizontalAlignment="Left"  Fill="DarkRed" />
+                        <TextBlock Text="Past&#x0a;Due" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    </Grid>
+                    <TextBlock Name="lblBillNm" Grid.Column="1" Text="{Binding Path=Name}" Style="{StaticResource billName}" FontSize="16"/>
+                    <controls:RadialProgressBar Grid.Column="2" Height="30" Width="30" Value="{Binding Path=_pOfBudget}" Minimum="0" Maximum="100" Thickness="5" Outline="Gray" Foreground="Blue" Opacity="75">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Percentage of budget used by bill"/>
+                        </ToolTipService.ToolTip>
+                    </controls:RadialProgressBar>
+                    <StackPanel Style="{StaticResource billCostStack}" Grid.Column="3">
+                        <TextBlock Text="{Binding Path=Amount, Converter={StaticResource ResourceKey=StringFormat}}" Style="{StaticResource billCost}" FontSize="16"/>
+                    </StackPanel>
+                    <TextBlock FontSize="10" Text="{Binding Path=catDue}" Style="{StaticResource billCat}" Grid.Column="4"/>
+                    <RelativePanel Name="bttnPanel" Grid.Column="5" Visibility="Collapsed" VerticalAlignment="Center">
+                        <Button Style="{StaticResource gridButton}" >
+                            <FontIcon Glyph="&#xE712;" FontSize="14"/>
+                            <Button.Flyout>
+                                <Flyout FlyoutPresenterStyle="{StaticResource flyoutMen}">
+                                    <StackPanel>
+                                        <Button Click="PayBill_Click" Style="{StaticResource flyoutButton}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <FontIcon Glyph="&#xE8EC;" Style="{StaticResource flyoutIcon}"/>
+                                                <TextBlock Text="Pay" Style="{StaticResource flyoutText}"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Click="ManageBillPay_Click" Style="{StaticResource flyoutButton}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <FontIcon Glyph="&#xE90F;" Style="{StaticResource flyoutIcon}"/>
+                                                <TextBlock Text="Payments" Style="{StaticResource flyoutText}"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Style="{StaticResource flyoutButton}" Click="shrBillBttn_Click" >
+                                            <StackPanel Orientation="Horizontal">
+                                                <FontIcon Glyph="&#xE72D;" Style="{StaticResource flyoutIcon}" FontSize="18" Margin="2,0,10,0"/>
+                                                <TextBlock Text="Share" Style="{StaticResource flyoutText}"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </RelativePanel>
+                </Grid>
+            </SwipeControl>
+        </DataTemplate>       
+    </Page.Resources>
+
+    <Grid Background="#FFAEAEB2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="VisualStateGroup">
+                        <VisualState x:Name="VisualStateDesktop">
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="550" />
+                            </VisualState.StateTriggers>
+                            <VisualState.Setters>
+                        <Setter Target="tglSort.FontSize" Value="15" />
+                        <Setter Target="lblBillCnt.Margin" Value="10,0,50,0" />
+                                <Setter Target="icnTotal.Margin" Value="50,0,10,0" />
+                                <Setter Target="lblTotal.Margin" Value="10,0,50,0" />
+                                <Setter Target="icnPaid.Margin" Value="50,3,10,0" />
+                                <Setter Target="lblPaid.Margin" Value="10,0,50,0"/>
+                                <Setter Target="icnRemain.Margin" Value="50,3,10,0"/>
+                                <Setter Target="lblRemain.Margin" Value="10,0,50,0"/>
+                                <Setter Target="lblDte.Visibility4" Value="Visible" />
+                                <Setter Target="lvBills.ItemTemplate" Value="{StaticResource ResourceKey=ListViewLarge}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="VisualStatePhone">
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="0"/>
+                            </VisualState.StateTriggers>
+                            <VisualState.Setters>
+                                <Setter Target="tglSort.FontSize" Value="12" />
+                                <Setter Target="lblBillCnt.Margin" Value="0,0,10,0" />
+                                <Setter Target="icnTotal.Margin" Value="10,0,10,0" />
+                                <Setter Target="lblTotal.Margin" Value="0,0,10,0" />
+                                <Setter Target="icnPaid.Margin" Value="10,3,10,0" />
+                                <Setter Target="lblPaid.Margin" Value="0,0,10,0"/>
+                                <Setter Target="icnRemain.Margin" Value="10,3,10,0"/>
+                                <Setter Target="lblRemain.Margin" Value="0,0,10,0"/>
+                                <Setter Target="lblDte.Visibility" Value="Collapsed" />
+                                <Setter Target="lvBills.ItemTemplate" Value="{StaticResource ResourceKey=ListViewSmall}"/>
+                    </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+
+                <StackPanel Orientation="Vertical">
+                    <RelativePanel Background="#FF6891C7" Height="70">
+                        <TextBlock Name="lblDte" Text="Sorting: " RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" Margin="15,0,10,20" FontSize="20" SelectionChanged="lblDte_SelectionChanged" />
+                        <ToggleSwitch Name="tglSort" RelativePanel.RightOf="lblDte" RelativePanel.AlignBottomWithPanel="True" OffContent="By Date" OnContent="By Category" Margin="0,0,0,10" Toggled="tglSort_Toggled" />
+                        <StackPanel Width="350" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
+                            <StackPanel HorizontalAlignment="Center" Name="monthStack" Orientation="Horizontal" >
+                                <Button Name="bttnLastMo" Content="Last" FontSize="16" Background="Transparent" BorderBrush="{StaticResource monthButtonBorder}" Windows10version1809:CornerRadius="5" BorderThickness="0" Click="BttnLastMo_Click"/>
+                                <AppBarSeparator/>
+                                <Button Name="bttnCurMo" Content="Current" FontSize="16" Background="Transparent" BorderBrush="{StaticResource monthButtonBorder}" Windows10version1809:CornerRadius="5" BorderThickness="0" Click="BttnCurMo_Click"/>
+                                <AppBarSeparator/>
+                                <Button Name="bttnNextMo" Content="Next" FontSize="16" Background="Transparent" BorderBrush="{StaticResource monthButtonBorder}" Windows10version1809:CornerRadius="5" BorderThickness="0" Click="BttnNextMo_Click"/>
+                            </StackPanel>   
+                        </StackPanel>
+                <Button Name="bttnHlp" RelativePanel.LeftOf="bttnAdd" RelativePanel.AlignBottomWithPanel="True" Content="&#xE946;" Style="{StaticResource topBttn}" Margin="0,0,9,8" Background="#FF6891C7" Click="bttnHlp_Click"/>
+                <Button Name="bttnAdd" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" Content="&#xE109;" Style="{StaticResource topBttn}" Margin="0,0,10,10" Background="#FF6891C7" Click="bttnAdd_Click" />
+                    </RelativePanel>
+                    <RelativePanel Name="relIcon" Height="50" Background="#FF3E3E3E">
+                        <StackPanel Name="stckIcons" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">                           
+                            <TextBlock FontFamily="Wingdings" Text="&#x34;" Style="{StaticResource InfoPanelItem}">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Total Bills" />
+                        </ToolTipService.ToolTip>
+                            </TextBlock>
+                            <TextBlock Name="lblBillCnt" Text="15" Style="{StaticResource InfoPanelItem}" Margin="10,0,50,0"/>
+                            <Line Name="line" Style="{StaticResource InfoPanelLine}"/>
+                            <TextBlock Name="icnTotal" FontFamily="Symbol" Text="&#xE5;" Margin="50,0,10,0" Style="{StaticResource InfoPanelItem}">
+                        <ToolTipService.ToolTip>
+                           <ToolTip Content="Total Ammount of Bills" />
+                        </ToolTipService.ToolTip>
+                            </TextBlock>
+                            <TextBlock Name="lblTotal" Text="$34" Style="{StaticResource InfoPanelItem}" Margin="10,0,50,0"/>
+                            <Line Style="{StaticResource InfoPanelLine}"/>
+                            <TextBlock Name="icnPaid" FontFamily="Segoe MDL2 Assets" Text="&#xE8EC;" Margin="50,3,10,0" Style="{StaticResource InfoPanelItem}">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Total Paid" />
+                        </ToolTipService.ToolTip>
+                            </TextBlock>
+                            <TextBlock Name="lblPaid" Text="$34" Style="{StaticResource InfoPanelItem}" Margin="10,0,50,0"/>
+                            <Line Style="{StaticResource InfoPanelLine}" />
+                            <TextBlock Name="icnRemain" FontFamily="Segoe MDL2 Assets" Text="&#xE823;" Margin="50,3,10,0" Style="{StaticResource InfoPanelItem}" FocusVisualPrimaryBrush="Black">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Total Ammount Remaining" />
+                        </ToolTipService.ToolTip>
+                            </TextBlock>
+                            <TextBlock Name="lblRemain" Text="$34" Style="{StaticResource InfoPanelItem}" Margin="10,0,50,0"/>
+                        </StackPanel>
+                    </RelativePanel>
+
+                </StackPanel>
+       
+        <StackPanel Name="stkNoItems" Grid.Row="1" Width="400" Height="200" Padding="0,60,0,0" Visibility="Collapsed">
+                    <TextBlock Text="There's nothing here, click the + icon to add something." TextWrapping="WrapWholeWords" Width="390" FontSize="28" TextAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe UI" />
+        </StackPanel>
+        <ListView Name="lvBills" Visibility="Visible" SelectionMode="None" ItemsSource="{Binding Source={StaticResource cvsBills}}" Grid.Row="1" HorizontalAlignment="Center" ItemTemplate="{StaticResource ResourceKey=ListViewLarge}" Padding="0,0,0,20">
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Key}" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel AreStickyGroupHeadersEnabled="True"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+
+    </Grid>
+</Page>

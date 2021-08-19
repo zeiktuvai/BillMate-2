@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="Bill_Tracker.Pages.Tools.PayoffCalc"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bill_Tracker.Pages.Tools"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource MainBackgrnd}">
+
+    <ScrollViewer>
+    <Grid>
+        <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="AUTO" />
+            <RowDefinition Height="32" />
+        </Grid.RowDefinitions>
+
+            <RelativePanel Background="DarkGray" Margin="0" Padding="5,0,5,0" >
+                <CheckBox Name="cbxNextMonth" Content="Start Next Month" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="sep1" Checked="cbxNextMonth_Checked" Unchecked="cbxNextMonth_Checked" />
+                <AppBarSeparator Name="sep1" RelativePanel.LeftOf="lblAutoSave" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                <TextBlock x:Name="lblAutoSave" Text="AutoSave" Margin="0,0,5,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="tgglAutoSave"/>
+                <ToggleSwitch x:Name="tgglAutoSave" OnContent="On" OffContent="Off" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="80" VerticalContentAlignment="Center" Toggled="tgglAutoSave_Toggled"/>                
+            </RelativePanel>
+
+            <ListView x:Name="lvAcct" SelectionMode="None" HorizontalAlignment="Center" Grid.Row="1" TabFocusNavigation="Local">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,5,0,0" Background="Gray" CornerRadius="5" Width="700" TabFocusNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="AUTO" />
+                                <RowDefinition Height="35" />
+                        </Grid.RowDefinitions>
+
+                        <TextBox Name="tbxAcctName" Text="{Binding Path=AccountName}" Style="{StaticResource PayoffCalc_EntryName}" KeyDown="tbxAcctName_KeyDown" LostFocus="tbxAcctName_LostFocus" TabIndex="0" TabNavigation="Cycle"/>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Background="LightGray">
+                            <TextBlock Text="Balance: " Style="{StaticResource PayoffCalc_EntryText}" />
+                            <TextBox x:Name="tbxStart" Text="{Binding Path=_DispTotalDue}" Style="{StaticResource PayoffCalc_EntryBoxes}" KeyDown="tbxStart_KeyDown" LostFocus="tbxStart_LostFocus" TabIndex="1" TabNavigation="Cycle"/>
+                            <TextBlock Text="Monthly Payment: " Style="{StaticResource PayoffCalc_EntryText}" Margin="25,5,5,0" />
+                            <TextBox x:Name="tbxMonthly" Text="{Binding Path=_DispPayAmmnt}" Style="{StaticResource PayoffCalc_EntryBoxes}" KeyDown="tbxMonthly_KeyDown" LostFocus="tbxMonthly_LostFocus" TabIndex="2" TabFocusNavigation="Cycle"/>
+                                <TextBlock Text="APR: " Style="{StaticResource PayoffCalc_EntryText}" Margin="25,5,5,0" />
+                                <TextBox x:Name="tbxAPR" Text="{Binding Path=APR}" Style="{StaticResource PayoffCalc_EntryBoxes}" Width="65" KeyDown="tbxStart_KeyDown" LostFocus="tbxStart_LostFocus" TabIndex="3" TabFocusNavigation="Cycle"/>
+                            </StackPanel>
+
+                        <GridView x:Name="gvPayoff" ItemsSource="{Binding Path=PayoffList}" SelectionMode="None" Grid.Row="2" Margin="5,0,5,0" >                                
+                            <GridView.ItemContainerStyle>
+                                <Style TargetType="GridViewItem">
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="MinHeight" Value="0" />
+                                    <Setter Property="MinWidth" Value="0" />
+                                </Style>
+                            </GridView.ItemContainerStyle>
+
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ToolTipService.ToolTip="{Binding Path=Tooltip}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Text="{Binding Path=Month}" Width="75" TextAlignment="Center" VerticalAlignment="Center"/>
+                                        <StackPanel Grid.Row="1" Background="{Binding Path='_BGColor'}" BorderBrush="Black" BorderThickness="0,2,0,2">
+                                            <TextBlock Text="{Binding Path=Remain}" Foreground="{Binding Path='_FontColor'}" Width="75" TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+
+                            <RelativePanel Grid.Row="3" Background="LightGray" >                                
+                                <StackPanel Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True">
+                                    <TextBlock x:Name="lblPmnts" Text="{Binding Path=_Payments}" Style="{StaticResource PayoffCalc_EntryText}" />
+                                    <AppBarSeparator />
+                                    <TextBlock Name="lblIntrest" Text="{Binding Path=_Interest}" Style="{StaticResource PayoffCalc_EntryText}" />
+                                    <AppBarSeparator />
+                                    <TextBlock Name="lblPayoffDte" Text="{Binding Path=_Payoff}" Style="{StaticResource PayoffCalc_EntryText}" />
+                                </StackPanel>
+
+                                <AppBarButton Name="bttnDel" Icon="Delete" LabelPosition="Collapsed" Margin="0,-3,0,0"  RelativePanel.AlignRightWithPanel="True" Click="bttnDel_Click" />
+                            </RelativePanel>
+                    </Grid>                    
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+            <RelativePanel HorizontalAlignment="Center" Margin="0,2,0,0" Width="600" Grid.Row="2">
+                <Button x:Name="addAccount" Content="&#xE109;" Width="50" FontFamily="Segoe MDL2 Assets" Click="addAccount_Click" RelativePanel.AlignHorizontalCenterWithPanel="True"  />        
+            </RelativePanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

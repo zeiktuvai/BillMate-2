@@ -1,0 +1,211 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bill_Tracker.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="Bill_Tracker.Pages.Goals"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+
+        <SwipeItems x:Key="GoalRight" Mode="Reveal">
+            <SwipeItem Text="Delete" IconSource="{StaticResource DeleteIcon}" Background="#FF932F2F" Foreground="White" Invoked="SwipeDel_Invoked"/>
+            <SwipeItem Text="Edit" IconSource="{StaticResource EditIcon}" Background="#FF91B8EC" Foreground="White" Invoked="SwipeEdit_Invoked"/>
+            <SwipeItem Text="Withdraw" IconSource="{StaticResource MinusIcon}" Background="#FF91B8EC" Foreground="White" Invoked="SwipeSub_Invoked" />
+            <SwipeItem Text="Deposit" IconSource="{StaticResource PlusIcon}" Background="#FF91B8EC" Foreground="White" Invoked="SwipeAdd_Invoked"/>            
+        </SwipeItems>
+
+        <DataTemplate x:Key="ListViewLarge">
+            <SwipeControl RightItems="{StaticResource GoalRight}">
+                <Grid MinWidth="550" Height="50" Margin="0,0,0,1" CornerRadius="7" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" Background="White" Tapped="Grid_Tapped">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="500" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+
+                    <ProgressBar Height="50" Grid.ColumnSpan="4" Value="{Binding Path=progress}" Background="White" Foreground="{Binding Path=_background}" Opacity=".35" />
+                    <Rectangle Width="5" HorizontalAlignment="Left"  Fill="{Binding _barColor}" />
+                    <StackPanel>
+                        <TextBlock Name="tbxGoalName" Text="{Binding Path=goalName}" Style="{StaticResource billName}" Foreground="{Binding _textFore}" Margin="15,0,0,0"/>
+                        <Grid HorizontalAlignment="Right" Margin="0,-6,15,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="190" />
+                                <ColumnDefinition Width="180" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Text="{Binding Path=minPay}" Style="{StaticResource accItemText}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left"/>
+                            <TextBlock Name="tbxGoalDte" Grid.Column="1" Style="{StaticResource accItemText}" HorizontalAlignment="Right">
+                            <Run>Due</Run>
+                            <Run Text="{Binding Path=_dispGoalDate}"/>
+                            </TextBlock>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        </StackPanel>
+                    </StackPanel>
+                        <RelativePanel Grid.Column="0" Name="bttnPanel" Visibility="Collapsed" VerticalAlignment="Top">
+                        <Button x:Name="goalDel" Style="{StaticResource gridButton}" RelativePanel.LeftOf="goalEdit" Click="goalDel_Click">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="Delete Goal" />
+                            </ToolTipService.ToolTip>
+                            <FontIcon Glyph="&#xE107;" FontSize="14"/>
+                        </Button>
+                        <Button x:Name="goalEdit"  Style="{StaticResource gridButton}" RelativePanel.LeftOf="goalSubt" Click="goalEdit_Click">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="Edit Goal" />
+                            </ToolTipService.ToolTip>
+                            <FontIcon Glyph="&#xE104;" FontSize="14"/>
+                        </Button>
+                        <Button x:Name="goalSubt"  Style="{StaticResource gridButton}" RelativePanel.LeftOf="goalAdd" Click="goalSubt_Click">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="Withdraw Money" />
+                            </ToolTipService.ToolTip>
+                            <FontIcon Glyph="&#xE108;" FontSize="14"/>
+                        </Button>
+                        <Button x:Name="goalAdd"  Style="{StaticResource gridButton}" RelativePanel.AlignRightWithPanel="True" Margin="0,0,10,0" Click="goalAdd_Click">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="Add Money" />
+                            </ToolTipService.ToolTip>
+                            <FontIcon Glyph="&#xE109;" FontSize="14"/>
+                        </Button>
+                    </RelativePanel>
+                    <Border Grid.Column="1" BorderThickness="1,0,1,0" BorderBrush="Gray" >
+                        <TextBlock Text="{Binding Path=_dispCurAmnt}" Style="{StaticResource ledgerPaid}" Foreground="DarkRed" Margin="15,0,0,0"/>
+                    </Border>
+                    <TextBlock Grid.Column="2" Text="{Binding Path=_dispGoalAmnt}" Margin="15,0,0,0" Foreground="DarkGreen" Style="{StaticResource ledgerPaid}" />
+
+                </Grid>
+            </SwipeControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ListViewSmall">
+            <SwipeControl RightItems="{StaticResource GoalRight}">
+                <Grid MinWidth="470" Height="50" Margin="0,0,0,1" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" Background="White" Tapped="Grid_Tapped">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+
+                    <ProgressBar Height="50" Grid.ColumnSpan="4" Value="{Binding Path=progress}" Background="White" Foreground="{Binding Path=_background}" Opacity=".35" />
+                    <Rectangle Width="5" HorizontalAlignment="Left"  Fill="{Binding _barColor}" />
+                    <StackPanel>
+                        <TextBlock Name="tbxGoalName" Text="{Binding Path=goalName}" Style="{StaticResource billName}" Foreground="{Binding _textFore}" FontSize="16" Margin="10,5,0,0"/>
+                        <TextBlock Name="tbxGoalDte" Style="{StaticResource accItemText}" Margin="0,0,15,0" FontSize="14">
+                        <Run>Due</Run>
+                        <Run Text="{Binding Path=_dispGoalDate}"/>
+                        </TextBlock>
+                    </StackPanel>
+                    <Border Grid.Column="1" BorderThickness="1,0,1,0" BorderBrush="Gray" >
+                        <TextBlock Text="{Binding Path=_dispCurAmnt}" Style="{StaticResource ledgerPaid}" Foreground="DarkRed" Margin="10,0,0,0" FontSize="16" VerticalAlignment="Top"/>
+                    </Border>
+
+                    <TextBlock Grid.Column="2" Text="{Binding Path=_dispGoalAmnt}" Margin="10,0,0,0" Foreground="DarkGreen" Style="{StaticResource ledgerPaid}" FontSize="16" VerticalAlignment="Top"/>
+                    <RelativePanel Name="bttnPanel" Grid.Column="2" Visibility="Collapsed" VerticalAlignment="Bottom">
+                        <Button x:Name="goalDel" Style="{StaticResource gridButton}" Width="25" RelativePanel.LeftOf="goalEdit" Click="goalDel_Click">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="Delete Goal" />
+                            </ToolTipService.ToolTip>
+                            <FontIcon Glyph="&#xE107;" FontSize="10"/>
+                        </Button>
+                        <Button x:Name="goalEdit"  Style="{StaticResource gridButton}" Width="30" RelativePanel.LeftOf="goalSubt" Click="goalEdit_Click">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="Edit Goal" />
+                            </ToolTipService.ToolTip>
+                            <FontIcon Glyph="&#xE104;" FontSize="10"/>
+                        </Button>
+                        <Button x:Name="goalSubt"  Style="{StaticResource gridButton}" Width="25" RelativePanel.LeftOf="goalAdd" Click="goalSubt_Click">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="Withdraw Money" />
+                            </ToolTipService.ToolTip>
+                            <FontIcon Glyph="&#xE108;" FontSize="10"/>
+                        </Button>
+                        <Button x:Name="goalAdd"  Style="{StaticResource gridButton}" Width="30" RelativePanel.AlignRightWithPanel="True" Margin="0,0,10,0" Click="goalAdd_Click">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="Add Money" />
+                            </ToolTipService.ToolTip>
+                            <FontIcon Glyph="&#xE109;" FontSize="10"/>
+                        </Button>
+                    </RelativePanel>
+                </Grid>
+            </SwipeControl>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource MainBackgrnd}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="VisualStatePhone">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="lblGoalCnt.Margin" Value="0,0,10,0" />
+                        <Setter Target="icnGTotal.Margin" Value="10,0,10,0" />
+                        <Setter Target="lblGTotal.Margin" Value="0,0,10,0" />
+                        <Setter Target="icnGProg.Margin" Value="10,3,10,0" />
+                        <Setter Target="lblGProg.Margin" Value="0,0,10,0"/>
+                        <Setter Target="lvGoal.ItemTemplate" Value="{StaticResource ResourceKey=ListViewSmall}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateTablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="850" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="lblGoalCnt.Margin" Value="10,0,50,0" />
+                        <Setter Target="icnGTotal.Margin" Value="50,0,10,0" />
+                        <Setter Target="lblGTotal.Margin" Value="10,0,50,0" />
+                        <Setter Target="icnGProg.Margin" Value="50,3,10,0" />
+                        <Setter Target="lblGProg.Margin" Value="10,0,50,0"/>
+                        <Setter Target="lvGoal.ItemTemplate" Value="{StaticResource ResourceKey=ListViewLarge}"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel Orientation="Vertical">
+            <RelativePanel Name="relIcon" Height="50" Background="{StaticResource iconBarBrush}">
+                <Button Name="bttnHlp" RelativePanel.LeftOf="bttnAdd" RelativePanel.AlignBottomWithPanel="True" Content="&#xE946;" Style="{StaticResource topBttn}" Margin="0,10,9,8" Background="{StaticResource iconBarBrush}" Foreground="White" Click="bttnHlp_Click" />
+                <Button Name="bttnAdd" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Content="&#xE109;" Style="{StaticResource topBttn}" Background="{StaticResource iconBarBrush}" Foreground="White" Click="bttnAdd_Click"/>
+                <StackPanel Name="stckIcons" Orientation="Horizontal" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE9D5;" Style="{StaticResource InfoPanelItem}">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Goal Count"/>
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+                    <TextBlock Name="lblGoalCnt" Text="15" Style="{StaticResource InfoPanelItem}" Margin="10,0,50,0"/>
+                    <Line Name="line" Style="{StaticResource InfoPanelLine}"/>
+                    <TextBlock Name="icnGTotal" FontFamily="Symbol" Text="&#xE5;" Margin="50,0,10,0" Style="{StaticResource InfoPanelItem}">
+                        <ToolTipService.ToolTip>
+                           <ToolTip Content="Total Amount" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+                    <TextBlock Name="lblGTotal" Text="$34" Style="{StaticResource InfoPanelItem}" Margin="10,0,50,0"/>
+                    <Line Style="{StaticResource InfoPanelLine}"/>
+                    <TextBlock Name="icnGProg" FontFamily="Segoe MDL2 Assets" Text="&#xE121;" Margin="50,3,10,0" Style="{StaticResource InfoPanelItem}">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Overall Progress" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+                    <TextBlock Name="lblGProg" Text="$34" Style="{StaticResource InfoPanelItem}" Margin="10,0,50,0"/>
+                </StackPanel>
+            </RelativePanel>
+        </StackPanel>
+
+
+        <StackPanel Name="stkNoItems" Grid.Row="1" Width="400" Height="200" Padding="0,60,0,0" Visibility="Collapsed">
+            <TextBlock Text="There's nothing here, click the + icon to add something." TextWrapping="WrapWholeWords" Width="390" FontSize="28" TextAlignment="Center" HorizontalAlignment="Center" />
+        </StackPanel>
+
+        <ListView Name="lvGoal" Grid.Row="1" SelectionMode="None"  ItemTemplate="{StaticResource ResourceKey=ListViewLarge}" HorizontalAlignment="Center" Margin="0,15,0,0" />
+
+        
+    </Grid>
+</Page>

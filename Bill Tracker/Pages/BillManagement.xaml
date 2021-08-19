@@ -1,0 +1,215 @@
+﻿<Page
+    x:Class="Bill_Tracker.BillManagement"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bill_Tracker"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <SwipeItems x:Key="PayRight" Mode="Reveal">
+            <SwipeItem Text="Delete" IconSource="{StaticResource DeleteIcon}" Background="#FF932F2F" Foreground="White" Invoked="DelItem_Invoked"/>
+        </SwipeItems>
+
+        <DataTemplate x:Key="HistLarge" >
+            <SwipeControl RightItems="{StaticResource PayRight}">
+
+                <Grid Height="43" MinWidth="400" Background="#f1ffed" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" Tapped="Grid_Tapped" CornerRadius="5" BorderThickness="0,1,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{Binding Path=billName}" HorizontalAlignment="Left" Style="{StaticResource billName}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Path=_displayDate}" Style="{StaticResource billName}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Path=_displayAmount}" Grid.Column="2" HorizontalAlignment="Center" Foreground="Black" Style="{StaticResource billCost}" />
+
+
+                    <RelativePanel Name="bttnPanel" Grid.Column="3" Visibility="Collapsed" VerticalAlignment="Center">
+                        <Button  Style="{StaticResource gridButton}" Click="DelPay_Click" >
+                            <FontIcon Glyph="&#xE107;" FontSize="14"/>
+                        </Button>
+                    </RelativePanel>
+                </Grid>
+            </SwipeControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HistSmall" >
+            <SwipeControl RightItems="{StaticResource PayRight}">
+                <Grid MinWidth="400" Height="43" Background="#f1ffed" Padding="0" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" Tapped="Grid_Tapped" BorderThickness="0,1,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding Path=_displayDate}" Style="{StaticResource billName}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Path=_displayAmount}" Grid.Column="1" Foreground="Black" HorizontalAlignment="Center" Style="{StaticResource billCost}" />
+
+                    <RelativePanel Name="bttnPanel" Grid.Column="2" Visibility="Collapsed" VerticalAlignment="Center">
+                        <Button  Style="{StaticResource gridButton}" Click="DelPay_Click" >
+                            <FontIcon Glyph="&#xE107;" FontSize="14"/>
+                        </Button>
+                    </RelativePanel>
+                </Grid>
+            </SwipeControl>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource MainBackgrnd}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="VisualStatePhone">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="lstPayments.ItemTemplate" Value="{StaticResource ResourceKey=HistSmall}"/>
+                        <Setter Target="day30.Width" Value="30"/>
+                        <Setter Target="day30.Label" Value="30" />
+                        <Setter Target="day60.Width" Value="30"/>
+                        <Setter Target="day60.Label" Value="60" />
+                        <Setter Target="day90.Width" Value="30"/>
+                        <Setter Target="day90.Label" Value="90" />
+                        <Setter Target="day180.Width" Value="30"/>
+                        <Setter Target="day180.Label" Value="180" />
+                        <Setter Target="day365.Width" Value="30"/>
+                        <Setter Target="day365.Label" Value="365" />
+                        <Setter Target="dayAll.Width" Value="30"/>
+                        <!--<Setter Target="histUnArch.Width" Value="40"/>
+                        <Setter Target="histUnArch.Label" Value="Archive" />-->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateTablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="850" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="lstPayments.ItemTemplate" Value="{StaticResource ResourceKey=HistLarge}"/>
+                        <Setter Target="day30.Width" Value="70"/>
+                        <Setter Target="day30.Label" Value="30 Days" />
+                        <Setter Target="day60.Width" Value="70"/>
+                        <Setter Target="day60.Label" Value="60 Days" />
+                        <Setter Target="day90.Width" Value="70"/>
+                        <Setter Target="day90.Label" Value="90 Days" />
+                        <Setter Target="day180.Width" Value="70"/>
+                        <Setter Target="day180.Label" Value="180 Days" />
+                        <Setter Target="day365.Width" Value="70"/>
+                        <Setter Target="day365.Label" Value="365 Days" />
+                        <Setter Target="dayAll.Width" Value="70"/>                        
+                        <!--<Setter Target="histUnArch.Width" Value="70"/>
+                        <Setter Target="histUnArch.Label" Value="Archive" />-->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <RelativePanel Grid.Column="1" Background="{StaticResource iconBarBrush}" Padding="10,0,0,0">
+                <StackPanel Name="stckBillType" Orientation="Horizontal" RelativePanel.AlignVerticalCenterWithPanel="True">
+                    <TextBlock Text="Bill Type" FontSize="20" Foreground="White"  Margin="0,0,5,0" VerticalAlignment="Center"/>
+                    <ComboBox Name="cbxType" SelectionChanged="cbxType_SelectionChanged" VerticalAlignment="Center" Margin="5,0,0,0" SelectedIndex="0">
+                        <ComboBoxItem Tag="AL">All</ComboBoxItem>
+                        <ComboBoxItem Tag="MO">Monthly</ComboBoxItem>
+                        <ComboBoxItem Tag="BI">Bi-Monthly</ComboBoxItem>
+                        <ComboBoxItem Tag="WK">Weekly</ComboBoxItem>
+                        <ComboBoxItem Tag="AN">Annual</ComboBoxItem>
+                        <ComboBoxItem Tag="AR">Archived</ComboBoxItem>
+                    </ComboBox>                                
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" RelativePanel.RightOf="stckBillType" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="50,0,0,0">
+                    <TextBlock Text="Category" FontSize="20" Foreground="White"  Margin="0,0,5,0" VerticalAlignment="Center"/>
+                    <ComboBox Name="cbxCat" Margin="10,0,0,0" SelectionChanged="CbxCat_SelectionChanged"></ComboBox>
+                </StackPanel>
+
+                <Button Name="bttnHlp" RelativePanel.LeftOf="bttnAdd" RelativePanel.AlignBottomWithPanel="True" Content="&#xE946;" Style="{StaticResource topBttn}" Margin="0,0,9,8" Background="{StaticResource iconBarBrush}" Foreground="White" Click="bttnHlp_Click"/>
+                <AppBarButton Name="bttnAdd" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Icon="Add" Label="Add"  Foreground="White" Background="{StaticResource iconBarBrush}" Click="BttnAdd_Click" />
+            </RelativePanel>
+
+            <Grid  Background="{StaticResource iconBarBrush}">
+                <AppBarButton Name="bttnBack" Icon="Back" Foreground="White" Background="#FF4F4E4E" Margin="5,0,0,0" LabelPosition="Collapsed" Click="BttnBack_Click" VerticalAlignment="Center"/>
+            </Grid>
+
+
+            <Grid Background="{StaticResource iconBarBrush}" Grid.Row="1">
+                <Line X1="0" X2="200" Y1="0" Y2="0" StrokeThickness="5" Stroke="#FF4F4E4E" Canvas.ZIndex="10"/>
+                <ListView Name="histList" VerticalAlignment="Top" SelectionChanged="histList_SelectionChanged" Background="{StaticResource iconBarBrush}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name}" Foreground="White" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="70" />
+                </Grid.RowDefinitions>
+                
+<!-- Bill management FUnctions -->
+                <Grid Background="#777676">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="55" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <RelativePanel>
+                        <TextBlock Name="lblBillName" Text="" Width="350" Style="{StaticResource Hist_DetailsTextMain}" RelativePanel.AlignLeftWithPanel="True"/>
+                        <StackPanel Name="stckBillOpt" Orientation="Horizontal" Background="{StaticResource iconBarBrush}" CornerRadius="10" Margin="0,3,10,0" Visibility="Collapsed" RelativePanel.AlignRightWithPanel="True">
+                            <AppBarButton Name="bttnBillEdit" Icon="Edit" Foreground="White" Label="Edit" Click="bttnBillEdit_Click" />
+                            <AppBarButton Name="bttnBillDel" Icon="Delete" Foreground="White" Label="Delete" Click="BttnBillDel_Click"/>
+                            <AppBarToggleButton Name="histUnArch" Icon="Document" Label="Archive" HorizontalAlignment="Right" Click="histUnArch_Click" Foreground="White"/>
+                        </StackPanel>
+                    </RelativePanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <TextBlock Name="txtBillAmn" Text="Monthly Amount:" Visibility="Collapsed" FontSize="18" Style="{StaticResource Hist_DetailsText}"/>
+                        <TextBlock Name="lblBillDue" Text="" Width="150" FontSize="18" Style="{StaticResource Hist_DetailsText}" Foreground="DarkRed" />
+                        <TextBlock Name="txtBillCa" Text="Category:" Visibility="Collapsed" Style="{StaticResource Hist_DetailsText}"/>
+                        <TextBlock Name="lblBillCat" Text="" Style="{StaticResource Hist_DetailsText}" />
+                        <TextBlock Name="lblBillFreq" Text="" Style="{StaticResource Hist_DetailsText}" Margin="100,10,0,0" />
+
+                    </StackPanel>
+                </Grid>
+
+                <ListView Name="lstPayments" Grid.Row="1" SelectionMode="None" Background="{StaticResource MainBackgrnd}" ItemTemplate="{StaticResource HistLarge}" Padding="0" Margin="0,5,0,0">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+
+
+                <StackPanel Name="stkNoItems" Grid.Row="1" Width="400" Height="200" Padding="0,60,0,0" Visibility="Collapsed">
+                    <TextBlock Text="There's no history yet, pay some bills!" TextWrapping="WrapWholeWords" Width="390" FontSize="28" TextAlignment="Center" HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <Grid Grid.Row="2" Height="55" >
+                    <StackPanel Name="cmdbr" Style="{StaticResource Hist_TimeSpanStack}" Visibility="Collapsed">
+                        <AppBarToggleButton Name="day30" Icon="Calendar" Label="30 Days" Click="day30_Click" Foreground="White" />
+                        <AppBarToggleButton Name="day60" Icon="Calendar" Label="60 Days" Click="day60_Click" Foreground="White"/>
+                        <AppBarToggleButton Name="day90" Icon="Calendar" Label="90 Days" Click="day90_Click" Foreground="White"/>
+                        <AppBarToggleButton Name="day180" Icon="Calendar" Label="180 Days" Click="day180_Click" Foreground="White"/>
+                        <AppBarToggleButton Name="day365" Icon="CalendarDay" Label="365 Days" Click="day365_Click" Foreground="White"/>
+                        <AppBarToggleButton Name="dayAll" Icon="CalendarWeek" Label="ALL" Click="dayAll_Click" Foreground="White"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

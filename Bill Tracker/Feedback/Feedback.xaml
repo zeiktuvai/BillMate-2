@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="Bill_Tracker.Feedback.Feedback"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bill_Tracker.Feedback"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource MainBackgrnd}">
+        <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+            <TextBlock Text="Feedback"  FontSize="30"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="For reccomendations or bug reports please email:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <HyperlinkButton Content="zeik_tuvai@hotmail.com" FontSize="14" NavigateUri="mailto:zeik_tuvai@hotmail.com"/>
+            </StackPanel>
+            <TextBlock Text="If you like this app or find it useful please consider:" Margin="0,15,0,0"/>
+            <HyperlinkButton Content="Rate this app" Click="HyperlinkButton_Click" />
+            <HyperlinkButton Content="Donate(PayPal)" NavigateUri="http://paypal.me/GPRIcomnet/1"/>
+        </StackPanel>
+    </Grid>
+</Page>

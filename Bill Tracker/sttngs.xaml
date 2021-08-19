@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="Bill_Tracker.sttngs"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bill_Tracker"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="White">
+        <Pivot Margin="0,0,0,0">
+            <Pivot.Items>                
+                <PivotItem Header="Settings" Margin="0" Background="{StaticResource MainBackgrnd}">
+                    <StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                            <TextBlock Text="General Settings" FontSize="24" Margin="0,20,0,10" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Enable Password Protection:" FontSize="18" Margin="20,0,20,0" VerticalAlignment="Center" />
+                                <ToggleSwitch Name="tgglLogin" IsEnabled="True"  />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Link to OneDrive" FontSize="18"  Margin="20,10,20,0" VerticalAlignment="Center" />
+                                <Button Name="bttnLogin" Content="Login" Click="BttnLogin_Click" Margin="0,10,0,0" />
+                                <TextBlock Name="lblUser" Text="Logged in as: " Margin="20,10,0,0" FontSize="18" VerticalAlignment="Center" Visibility="Collapsed" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Margin="10,0,0,0">                        
+                            <TextBlock Text="Account Database Maintenance" FontSize="24" Margin="0,20,0,10" />
+                            <HyperlinkButton Name="bttnSttngImprt" Content="Import Database" Margin="20,5,0,5" Click="bttnSttngImprt_Click" />
+                            <HyperlinkButton Name="bttnSttngExprt" Content="Export Database" Margin="20,5,0,5" Click="bttnSttngExprt_Click" />
+                            <HyperlinkButton Name="bttnSttngImportODS" Content="Import Database from OneDrive" Margin="20,5,0,5" Click="BttnSttngImportODS_Click"/>
+                            <HyperlinkButton Name="bttnSttngExportODS" Content="Export Database to OneDrive" Margin="20,5,0,5" Click="BttnSttngExportODS_Click" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Enable automatic database backup" FontSize="18"  Margin="20,10,20,0" VerticalAlignment="Center"  />
+                                <ToggleSwitch Name="tgglAutoDB" Margin="0,10,0,0" IsEnabled="False" Toggled="TgglAutoDB_Toggled"/>
+                            </StackPanel>
+                            <TextBlock Name="lblLbkup" Text="Last backup: None" FontSize="18"  Margin="30,10,20,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </PivotItem> 
+
+                <PivotItem Header="About" Margin="0" Background="{StaticResource MainBackgrnd}">
+                    <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                        <TextBlock Text="BillMate" FontSize="34"  />
+                        <TextBlock Text="ICOMNetworks Publishing" FontSize="16" Margin="0,20,0,0" />
+                        <TextBlock Name="lblVer" Text="Version " FontSize="16" />
+                        <TextBlock Name="lblDBVer" Text="DB Version " FontSize="16" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Privacy Policy:" FontSize="16" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                            <HyperlinkButton FontSize="16" Content="https://1drv.ms/w/s!AtYruPjzcDmWnOI-SIL0Gh3ofAfrGg" />
+                        </StackPanel>
+                    </StackPanel>
+                </PivotItem>
+            </Pivot.Items>
+        </Pivot>
+    </Grid>
+</Page>

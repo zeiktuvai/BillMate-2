@@ -1,0 +1,24 @@
+﻿<ContentDialog
+    x:Class="Bill_Tracker.Dialog.help_swipe"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bill_Tracker.Dialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Swipe to interact"
+    PrimaryButtonText="OK"    
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="AUTO" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="When using a touch screen you can swipe to the left to interact with items." />
+        <Image Grid.Row="1" Source="/Assets/swipe.png" Height="150" />
+
+    </Grid>
+</ContentDialog>
